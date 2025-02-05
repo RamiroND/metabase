@@ -10575,6 +10575,17 @@ databaseChangeLog:
                     nullable: true
                     unique: true
 
+  - changeSet:
+      id: v52.2025-02-05T20:43:40
+      author: nvoxland
+      comment: Delete everything from the core_session table because checks are now assuming a hashed session id
+      changes:
+        - delete:
+            tableName: core_session
+      rollback:
+        - delete:
+            tableName: core_session
+
   # >>>>>>>>>> DO NOT ADD NEW MIGRATIONS BELOW THIS LINE! ADD THEM ABOVE <<<<<<<<<<
 
 ########################################################################################################################
