@@ -10578,13 +10578,17 @@ databaseChangeLog:
   - changeSet:
       id: v52.2025-02-05T20:43:40
       author: nvoxland
-      comment: Delete everything from the core_session table because checks are now assuming a hashed session id
+      comment: Replacing storing the session key in the "id" column in favor of storing a new hashed version
       changes:
-        - delete:
+        - addColumn:
             tableName: core_session
-      rollback:
-        - delete:
-            tableName: core_session
+            columns:
+              - column:
+                  name: key_hashed
+                  type: varchar(254)
+                  value: "upgrade placeholder"
+                  constraints:
+                    nullable: false
 
   # >>>>>>>>>> DO NOT ADD NEW MIGRATIONS BELOW THIS LINE! ADD THEM ABOVE <<<<<<<<<<
 
