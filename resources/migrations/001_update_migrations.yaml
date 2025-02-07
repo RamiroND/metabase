@@ -10579,6 +10579,7 @@ databaseChangeLog:
       id: v52.2025-02-05T20:43:40
       author: nvoxland
       comment: Replacing storing the session key in the "id" column in favor of storing a new hashed version
+      preConditions:
       changes:
         - addColumn:
             tableName: core_session
