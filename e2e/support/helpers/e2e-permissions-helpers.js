@@ -139,7 +139,7 @@ export function assertDatasetReqIsSandboxed(options = {}) {
     const { data } = response.body;
     expect(data.is_sandboxed).to.equal(true);
 
-    // if options to make assertions on a columns data
+    // if options to make assertions on a column's data
     if (columnId && columnAssertion) {
       const colIndex = data.cols.findIndex(c => c.id === columnId);
       expect(colIndex).to.be.gte(0);
