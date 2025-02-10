@@ -10592,6 +10592,19 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
+  - changeSet:
+      id: v53.2025-02-10T15:21:04
+      author: nvoxland
+      comment: Creating index on the hashed session key
+      preConditions:
+      changes:
+        - createIndex:
+            tableName: core_session
+            columns:
+              - column:
+                  name: key_hashed
+            indexName: idx_core_session_key_hashed
+
   # >>>>>>>>>> DO NOT ADD NEW MIGRATIONS BELOW THIS LINE! ADD THEM ABOVE <<<<<<<<<<
 
 ########################################################################################################################
