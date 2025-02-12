@@ -1,4 +1,5 @@
 import cx from "classnames";
+import { useMemo } from "react";
 import { t } from "ttag";
 
 import { FormCollectionAndDashboardPicker } from "metabase/collections/containers/FormCollectionAndDashboardPicker";
@@ -9,6 +10,7 @@ import {
   Form,
   FormErrorMessage,
   FormRadioGroup,
+  FormSelect,
   FormSubmitButton,
   FormTextInput,
   FormTextarea,
@@ -19,6 +21,13 @@ import type { Dashboard } from "metabase-types/api";
 
 import S from "./SaveQuestionForm.module.css";
 import { useSaveQuestionContext } from "./context";
+
+const labelStyles = {
+  fontWeight: 900,
+  fontSize: "0.77rem",
+  color: "var(--mb-color-text-medium)",
+  marginBottom: rem("7px"),
+};
 
 export const SaveQuestionForm = ({
   onCancel,
@@ -54,6 +63,20 @@ export const SaveQuestionForm = ({
       : ["collection"];
 
   const showPickerInput = values.saveType === "create" && !saveToDashboard;
+
+  // TODO: make all the tab stuff reactive to the user selecting a dashboard from the entity picker
+  // not just if there was a dashboard already selected
+
+  const tabs = useMemo(() => {
+    return (
+      saveToDashboard?.tabs?.map(tab => ({
+        label: tab.name,
+        value: `${tab.id}`,
+      })) ?? []
+    );
+  }, [saveToDashboard]);
+
+  const showTabSelect = values.saveType === "create" && tabs.length > 1;
 
   return (
     <Form>
@@ -96,19 +119,12 @@ export const SaveQuestionForm = ({
         </FormRadioGroup>
       )}
       {values.saveType === "create" && (
-        <Stack spacing="md">
+        <Stack spacing="md" mb="md">
           <FormTextInput
             name="name"
             label={t`Name`}
             placeholder={nameInputPlaceholder}
-            styles={{
-              label: {
-                fontWeight: 900,
-                fontSize: "0.77rem",
-                color: "var(--mb-color-text-medium)",
-                marginBottom: rem("7px"),
-              },
-            }}
+            styles={{ label: labelStyles }}
           />
 
           <FormTextarea
@@ -116,14 +132,7 @@ export const SaveQuestionForm = ({
             label={t`Description`}
             minRows={4}
             placeholder={t`It's optional but oh, so helpful`}
-            styles={{
-              label: {
-                fontWeight: 900,
-                fontSize: "0.77rem",
-                color: "var(--mb-color-text-medium)",
-                marginBottom: rem("7px"),
-              },
-            }}
+            styles={{ label: labelStyles }}
           />
           {isCollectionPickerEnabled && showPickerInput && (
             <FormCollectionAndDashboardPicker
@@ -139,6 +148,14 @@ export const SaveQuestionForm = ({
                     return item.model !== "table" && item.can_write;
                   }),
               }}
+            />
+          )}
+          {showTabSelect && (
+            <FormSelect
+              name="dashboard_tab_id"
+              label="Which tab should this go on?"
+              data={tabs}
+              styles={{ label: labelStyles }}
             />
           )}
         </Stack>
