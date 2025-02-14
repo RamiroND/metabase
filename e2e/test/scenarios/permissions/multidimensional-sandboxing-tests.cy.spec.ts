@@ -24,7 +24,7 @@ describe("admin > permissions > sandboxing (multidimensional tests)", () => {
       usedAliases.clear();
     });
 
-    it("to a table with a filtered custom view", () => {
+    it("to a table filtered using a question as a custom view", () => {
       const columnType = "regular";
       const filterTableBy = "custom_view";
       const customColumnType = undefined;
@@ -32,6 +32,19 @@ describe("admin > permissions > sandboxing (multidimensional tests)", () => {
         columnType,
         filterTableBy,
         customColumnType,
+      });
+    });
+
+    it("to a table filtered using a model as a custom view", () => {
+      const columnType = "regular";
+      const filterTableBy = "custom_view";
+      const customViewType = "model";
+      const customColumnType = undefined;
+      H.configureAndVerifySandboxPolicy({
+        columnType,
+        filterTableBy,
+        customColumnType,
+        customViewType,
       });
     });
 

@@ -27,15 +27,14 @@ const { ALL_USERS_GROUP, DATA_GROUP, COLLECTION_GROUP } = USER_GROUPS;
 
 const { PRODUCTS_ID } = SAMPLE_DATABASE;
 
-export type QuestionType = "saved" | "adhoc";
-
-export type ColumnType = "regular" | "custom";
+type ColumnType = "regular" | "custom";
 
 /** A string describing the data type of a custom column. This is not a mistake
  * - it's a string with three possible values */
-export type CustomColumnType = "boolean" | "string" | "number";
+type CustomColumnType = "boolean" | "string" | "number";
 
-export type FilterTableBy = "column" | "custom_view";
+type FilterTableBy = "column" | "custom_view";
+type CustomViewType = "question" | "model";
 
 const customColumnTypeToFormula: Record<CustomColumnType, string> = {
   boolean: '[Category]="Gizmo"',
@@ -463,15 +462,17 @@ const configureSandboxPolicy = ({
 // TODO: remove
 const quick = true;
 
-// TODO: Clarify that this function creates cards
+/* Set up a sandbox policy and examine its effects on various kinds of cards in various contexts */
 export const configureAndVerifySandboxPolicy = ({
   columnType,
   customColumnType,
   filterTableBy,
+  customViewType,
 }: {
   filterTableBy?: FilterTableBy;
   columnType: ColumnType;
   customColumnType?: CustomColumnType;
+  customViewType?: CustomViewType;
 }) => {
   const { visitSavedQuestion, visitDashboardWithSavedQuestion } =
     createSavedQuestion({
@@ -486,6 +487,7 @@ export const configureAndVerifySandboxPolicy = ({
     const { visitSavedQuestion: visitCustomView } = createSavedQuestion({
       columnType: "custom",
       customColumnType: "string",
+      type: customViewType === "model" ? "model" : "question",
     });
     visitCustomView();
     filter();
