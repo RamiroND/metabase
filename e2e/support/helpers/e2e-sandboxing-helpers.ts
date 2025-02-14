@@ -453,14 +453,8 @@ const configureSandboxPolicy = ({
 
   saveChangesToPermissions();
 
-  cy.wait(1000); // HACK: If we don't wait here, an error occurs for some reason
-  // TODO: Make an assertion about the content of the Save permissions
-  // modal. It should say something like 'All Users' will be given access
-  // to 1 table in Sample Database
+  cy.wait(1000); // HACK: This avoids an error
 };
-
-// TODO: remove
-const quick = true;
 
 /* Set up a sandbox policy and examine its effects on various kinds of cards in various contexts */
 export const configureAndVerifySandboxPolicy = ({
@@ -532,35 +526,33 @@ export const configureAndVerifySandboxPolicy = ({
 
   signInAsSandboxedUser();
 
-  if (!quick) {
-    cy.log("Saved question is not yet filtered");
-    visitSavedQuestion();
-    shouldBeUnfiltered();
+  cy.log("Saved question is not yet filtered");
+  visitSavedQuestion();
+  shouldBeUnfiltered();
 
-    cy.log("Adhoc question is not yet filtered");
-    visitAdhocQuestion();
-    shouldBeUnfiltered();
+  cy.log("Adhoc question is not yet filtered");
+  visitAdhocQuestion();
+  shouldBeUnfiltered();
 
-    cy.log("Question based on saved question is not yet filtered");
-    visitNestedQuestion();
-    shouldBeUnfiltered();
+  cy.log("Question based on saved question is not yet filtered");
+  visitNestedQuestion();
+  shouldBeUnfiltered();
 
-    cy.log("Model is not yet filtered");
-    visitModel();
-    shouldBeUnfiltered();
+  cy.log("Model is not yet filtered");
+  visitModel();
+  shouldBeUnfiltered();
 
-    cy.log("Saved question in dashboard is not yet filtered");
-    visitDashboardWithSavedQuestion();
-    shouldBeUnfiltered();
+  cy.log("Saved question in dashboard is not yet filtered");
+  visitDashboardWithSavedQuestion();
+  shouldBeUnfiltered();
 
-    cy.log("Nested question is not yet filtered");
-    visitNestedQuestion();
-    shouldBeUnfiltered();
+  cy.log("Nested question is not yet filtered");
+  visitNestedQuestion();
+  shouldBeUnfiltered();
 
-    cy.log("Nested question in dashboard is not yet filtered");
-    visitDashboardWithNestedQuestion();
-    shouldBeUnfiltered();
-  }
+  cy.log("Nested question in dashboard is not yet filtered");
+  visitDashboardWithNestedQuestion();
+  shouldBeUnfiltered();
 
   cy.signInAsAdmin();
 
