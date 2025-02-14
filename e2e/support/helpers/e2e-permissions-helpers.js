@@ -1,7 +1,7 @@
 import _ from "underscore";
 
 import { SAMPLE_DB_ID } from "e2e/support/cypress_data";
-import { popover } from "e2e/support/helpers";
+import { modal, popover } from "e2e/support/helpers";
 
 export function selectSidebarItem(item) {
   cy.findAllByRole("menuitem").contains(item).click();
@@ -163,5 +163,19 @@ export function blockUserGroupPermissions(groupId, databaseId = SAMPLE_DB_ID) {
         "create-queries": "no",
       },
     },
+  });
+}
+
+export function saveChangesToPermissions() {
+  cy.log("Save changes to permissions");
+
+  cy.findByTestId("edit-bar")
+    .findByRole("button", { name: "Save changes" })
+    .click();
+
+  modal().within(() => {
+    cy.findByText("Save permissions?");
+    cy.findByText("Are you sure you want to do this?");
+    cy.button("Yes").click();
   });
 }

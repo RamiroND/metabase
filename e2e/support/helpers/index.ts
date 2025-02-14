@@ -29,6 +29,7 @@ export * from "./e2e-permissions-helpers";
 export * from "./e2e-qa-databases-helpers";
 export * from "./e2e-relative-date-picker-helpers";
 export * from "./e2e-request-helpers";
+export * from "./e2e-sandboxing-helpers";
 export * from "./e2e-search-helpers";
 export * from "./e2e-setup-helpers";
 export * from "./e2e-sharing-helpers";
