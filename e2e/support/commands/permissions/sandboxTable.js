@@ -4,7 +4,6 @@ const { STATIC_ORDERS_ID } = SAMPLE_DB_TABLES;
 
 const { COLLECTION_GROUP } = USER_GROUPS;
 
-/** Apply a sandboxing policy to a table */
 Cypress.Commands.add(
   "sandboxTable",
   ({
@@ -33,7 +32,6 @@ Cypress.Commands.add(
           },
         },
       });
-      // 'GTAP' stands for Group Table Access Policies
       cy.request("POST", "/api/mt/gtap", {
         attribute_remappings,
         card_id,
