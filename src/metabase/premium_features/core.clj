@@ -79,6 +79,10 @@
   "Should we enable the Audit Logs interface in the Admin UI?"
   :audit-app)
 
+(define-premium-feature enable-database-routing?
+  "Should we enable the Database Routing features?"
+  :database-routing)
+
 (define-premium-feature ^{:added "0.41.0"} enable-email-allow-list?
   "Should we enable restrict email domains for subscription recipients?"
   :email-allow-list)
