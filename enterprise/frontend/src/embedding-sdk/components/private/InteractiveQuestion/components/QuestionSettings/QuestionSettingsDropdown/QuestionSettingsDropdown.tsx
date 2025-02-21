@@ -13,7 +13,7 @@ export const QuestionSettingsDropdown = ({
 }: {
   height?: CSSProperties["height"];
 } & Omit<PopoverProps, "children"> = {}) => (
-  <Popover position="bottom-end" {...popoverProps}>
+  <Popover position="bottom-end" withinPortal={false} {...popoverProps}>
     <Popover.Target>
       <ToolbarButton
         isHighlighted={false}
@@ -28,7 +28,7 @@ export const QuestionSettingsDropdown = ({
       />
     </Popover.Target>
     <Popover.Dropdown miw="20rem" mah={height ?? FLEXIBLE_SIZE_DEFAULT_HEIGHT}>
-      <InteractiveQuestion.QuestionSettings maw="20rem" />
+      <InteractiveQuestion.QuestionSettings />
     </Popover.Dropdown>
   </Popover>
 );

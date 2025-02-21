@@ -1,50 +1,42 @@
-import type { HTMLAttributes, Ref } from "react";
-import { forwardRef } from "react";
+import { useDisclosure } from "@mantine/hooks";
 
-import TippyPopoverWithTrigger from "metabase/components/PopoverWithTrigger/TippyPopoverWithTrigger";
 import ColorRange from "metabase/core/components/ColorRange";
+import { Popover } from "metabase/ui";
 
 import ColorRangePopover from "./ColorRangePopover";
 
-export type ColorRangeSelectorAttributes = Omit<
-  HTMLAttributes<HTMLDivElement>,
-  "onChange" | "onSelect"
->;
-
-export interface ColorRangeSelectorProps extends ColorRangeSelectorAttributes {
+export interface ColorRangeSelectorProps {
   value: string[];
   colors: string[];
   colorRanges?: string[][];
   colorMapping?: Record<string, string[]>;
   isQuantile?: boolean;
   onChange?: (newValue: string[]) => void;
+  withinPortal?: boolean;
 }
 
-const ColorRangeSelector = forwardRef(function ColorRangeSelector(
-  {
-    value,
-    colors,
-    colorRanges,
-    colorMapping,
-    isQuantile,
-    onChange,
-    ...props
-  }: ColorRangeSelectorProps,
-  ref: Ref<HTMLDivElement>,
-) {
+export const ColorRangeSelector = ({
+  value,
+  colors,
+  colorRanges,
+  colorMapping,
+  isQuantile,
+  onChange,
+  withinPortal = true,
+  ...props
+}: ColorRangeSelectorProps) => {
+  const [opened, { close, toggle }] = useDisclosure(false);
   return (
-    <TippyPopoverWithTrigger
-      renderTrigger={({ onClick }) => (
+    <Popover opened={opened} onClose={close} withinPortal={withinPortal}>
+      <Popover.Target>
         <ColorRange
-          {...props}
-          ref={ref}
           colors={value}
           isQuantile={isQuantile}
-          onClick={onClick}
+          onClick={toggle}
           role="button"
         />
-      )}
-      popoverContent={({ closePopover }) => (
+      </Popover.Target>
+      <Popover.Dropdown>
         <ColorRangePopover
           initialValue={value}
           colors={colors}
@@ -52,12 +44,9 @@ const ColorRangeSelector = forwardRef(function ColorRangeSelector(
           colorMapping={colorMapping}
           isQuantile={isQuantile}
           onChange={onChange}
-          onClose={closePopover}
+          onClose={close}
         />
-      )}
-    />
+      </Popover.Dropdown>
+    </Popover>
   );
-});
-
-// eslint-disable-next-line import/no-default-export -- deprecated usage
-export default ColorRangeSelector;
+};
